@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import Link from "next/link";
 import s from "./Characters.module.scss";
 import { Button } from "../button/Button";
-import { ICharacter, IPersonResponse } from "../../types";
+import { ICharacter, IPeopleResponse } from "../../types";
 
 type Props = {
-  people: IPersonResponse | null;
+  people: IPeopleResponse | null;
 };
 
 type ExcludesFalse = <T>(x: T | null | undefined | false) => x is T;
@@ -28,7 +28,7 @@ export function Characters({ people }: Props): JSX.Element {
   const fetchMore = async (): Promise<void> => {
     setLoading(true);
     const url = `api/characters/?after=${nextPage}`;
-    let moreCharacters: IPersonResponse | undefined;
+    let moreCharacters: IPeopleResponse | undefined;
     try {
       const result = await fetch(url);
       if (!result.ok) {

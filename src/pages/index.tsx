@@ -2,7 +2,6 @@ import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
 import { Film } from "../components/film/Film";
 import { Layout } from "../components/layout/Layout";
-import { characterFragment } from "../graphql/characterFragment";
 import { fetchSwapi } from "../lib/swapi";
 import { IFilm, IFilmResponse } from "../types";
 
