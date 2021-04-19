@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { fetchCharacters } from "../../lib/swapi";
-import { IPeopleResponse } from "../../types";
+import { IPersonResponse } from "../../types";
 
 export default async (
   req: NextApiRequest,
@@ -8,7 +8,7 @@ export default async (
 ): Promise<void> => {
   
   const after = req.query?.after as string | undefined;
-  const files = await fetchCharacters<IPeopleResponse>(after);
+  const files = await fetchCharacters<IPersonResponse>(after);
 
   if (files) {
     res.json(files);
