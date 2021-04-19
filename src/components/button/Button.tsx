@@ -1,5 +1,5 @@
-import classnames from 'classnames';
-import s from './Button.module.scss';
+import classnames from "classnames";
+import s from "./Button.module.scss";
 
 type Props = {
   children: React.ReactNode;
@@ -7,7 +7,11 @@ type Props = {
   disabled?: boolean;
 };
 
-export function Button({ children, onClick, disabled = false }: Props): JSX.Element {
+export function Button({
+  children,
+  onClick,
+  disabled = false,
+}: Props): JSX.Element {
   return (
     <button
       className={classnames(s.button, { [s.disabled]: disabled })}
