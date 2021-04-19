@@ -42,11 +42,11 @@ interface IPageInfo {
   endCursor?: string;
 }
 
-export interface IPeopleResponse {
-  allPeople?: IPeople;
+export interface IPersonResponse {
+  allPeople?: IPerson;
 }
 
-interface IPeople {
+interface IPerson {
   pageInfo?: IPageInfo;
   people?: Array<ICharacter>;
 }

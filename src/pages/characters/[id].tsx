@@ -1,20 +1,18 @@
-import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
-import Head from 'next/head';
-
-import { ErrorPage } from '../../containers/Error';
-import { characterFragment } from '../../graphql/characterFragment';
-import { fetchSwapi } from '../../lib/swapi';
-import { ICharacter, ICharacterResponse } from '../../types';
-
-import { Layout } from '../../components/layout/Layout';
-import { Person } from '../../components/person/Person';
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import Head from "next/head";
+import { ErrorPage } from "../../containers/Error";
+import { characterFragment } from "../../graphql/characterFragment";
+import { fetchSwapi } from "../../lib/swapi";
+import { ICharacter, ICharacterResponse } from "../../types";
+import { Layout } from "../../components/layout/Layout";
+import { Person } from "../../components/person/Person";
 
 export type PageProps = {
   person: ICharacter | null;
 };
 
 export default function PageComponent(
-  data: InferGetServerSidePropsType<typeof getServerSideProps>,
+  data: InferGetServerSidePropsType<typeof getServerSideProps>
 ): JSX.Element {
   const { person } = data;
 
@@ -34,9 +32,10 @@ export default function PageComponent(
   );
 }
 
-export const getServerSideProps: GetServerSideProps<PageProps> = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps<PageProps> = async ({
+  params,
+}) => {
   const id = params?.id as string | undefined;
-
   const query = `
     query($id: ID!) {
       person(id:$id) {

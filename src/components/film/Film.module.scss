@@ -1,14 +1,14 @@
 .film {
 
     &__underline {
-        margin-top: 2rem;
-        margin-bottom: 2rem;
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
     }
     
-    &__title {
+    &__episodetitle {
         margin-bottom: 1rem;
     }
-    &__content {
+    &__crawl {
       display: flex;
       flex-direction: row;
     }

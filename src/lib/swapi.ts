@@ -31,16 +31,11 @@ export async function fetchSwapi<T>(
       `Error fetching from SWAPI, non 200 status: ${result.status}`
     );
   }
-  const json = await result.json()
+  const json = await result.json();
   return json.data as T;
 }
 
-// Gott að hafa sameiginlegt fall hér til að sækja fyrstu síðu á /pages/character/index.tsx og
-// næstu á /pages/api/character.ts
-// TODO EKKI any hér!
 export async function fetchCharacters<T>(after = ""): Promise<T> {
-  // Höldum query hér til að geta séð hvernig við erum að sækja
-  // Nákvæmlega hvað við sækjum per character er skilgreint í fragmenti
   const query = `
   query ($after: String = ""){
     allPeople(first:10 after: $after) {
@@ -56,7 +51,6 @@ export async function fetchCharacters<T>(after = ""): Promise<T> {
       }
     }
   }
-
   `;
 
   return fetchSwapi<T>(query, { after });

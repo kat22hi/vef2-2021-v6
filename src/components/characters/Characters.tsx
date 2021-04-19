@@ -2,32 +2,17 @@ import React, { useState } from "react";
 import Link from "next/link";
 import s from "./Characters.module.scss";
 import { Button } from "../button/Button";
-import { ICharacter, IPeopleResponse } from "../../types";
+import { ICharacter, IPersonResponse } from "../../types";
 
 type Props = {
-  people: IPeopleResponse | null;
+  people: IPersonResponse | null;
 };
 
-/**
- * Hjálpar týpa ef við erum að filtera burt hugsanleg null gildi:
- *
- * const items: T = itemsWithPossiblyNull
- *  .map((item) => {
- *    if (!item) {
- *      return null;
- *    }
- *    return item;
- *  })
- *  .filter((Boolean as unknown) as ExcludesFalse);
- * items verður Array<T> en ekki Array<T | null>
- */
 type ExcludesFalse = <T>(x: T | null | undefined | false) => x is T;
 
 export function Characters({ people }: Props): JSX.Element {
-  // TODO meðhöndla loading state, ekki þarf sérstaklega að villu state
   const [loading, setLoading] = useState<boolean>(false);
 
-  // TODO setja grunngögn sem koma frá server
   const [characters, setCharacters] = useState<Array<ICharacter>>(
     people?.allPeople?.people ?? []
   );
@@ -41,25 +26,23 @@ export function Characters({ people }: Props): JSX.Element {
   );
 
   const fetchMore = async (): Promise<void> => {
-    // TODO sækja gögn frá /pages/api/characters.ts (gegnum /api/characters), ef það eru fleiri
-    // (sjá pageInfo.hasNextPage) með cursor úr pageInfo.endCursor
     setLoading(true);
     const url = `api/characters/?after=${nextPage}`;
-    let newCharacters: IPeopleResponse | undefined;
+    let moreCharacters: IPersonResponse | undefined;
     try {
       const result = await fetch(url);
       if (!result.ok) {
-        throw new Error("error fetching new characters");
+        throw new Error("error");
       }
-      newCharacters = await result.json();
+      moreCharacters = await result.json();
     } catch (e) {
       console.error(e);
     } finally {
       setLoading(false);
     }
-    setCharacters(characters.concat(newCharacters?.allPeople?.people ?? []));
-    setNextPage(newCharacters?.allPeople?.pageInfo?.endCursor ?? "");
-    setHasNextPage(newCharacters?.allPeople?.pageInfo?.hasNextPage ?? false);
+    setCharacters(characters.concat(moreCharacters?.allPeople?.people ?? []));
+    setHasNextPage(moreCharacters?.allPeople?.pageInfo?.hasNextPage ?? false);
+    setNextPage(moreCharacters?.allPeople?.pageInfo?.endCursor ?? "");
   };
 
   return (
@@ -71,7 +54,7 @@ export function Characters({ people }: Props): JSX.Element {
           </li>
         ))}
       </ul>
-
+      {loading && <p className={s.news__loading}>Fetching more data...</p>}
       <Button disabled={loading} onClick={fetchMore}>
         Fetch more
       </Button>

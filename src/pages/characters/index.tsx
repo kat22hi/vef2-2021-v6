@@ -1,7 +1,6 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
 import { Characters } from "../../components/characters/Characters";
-
 import { Layout } from "../../components/layout/Layout";
 import { fetchCharacters } from "../../lib/swapi";
 import { IPeopleResponse } from "../../types";
@@ -26,12 +25,11 @@ export default function PageComponent(
 }
 
 export const getServerSideProps: GetServerSideProps<PageProps> = async () => {
-  // TODO sækja karaktera
   const peopleResponse = await fetchCharacters<IPeopleResponse>();
 
   return {
     props: {
-      peopleResponse: peopleResponse ?? null,
+      peopleResponse: peopleResponse,
     },
   };
 };
